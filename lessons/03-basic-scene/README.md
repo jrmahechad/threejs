@@ -1,4 +1,4 @@
-# Basic Scene
+# Threejs Journey - Basic Scene
 
 Set up a basic scene using `three.min.js` script file in the project folder.
 

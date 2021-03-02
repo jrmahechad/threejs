@@ -37,6 +37,6 @@ To see the segments use `wireframe : true` when creating the material.
 We can create geometries by specify all of it's vertex. To do so we will use `Float32Array`.
 The array represent the coordinates from all points in the geometry. Every 3 values in the array represents a point with `x`, `y` and `z` values.
 
-x | y | z | x | y | z | x | y |z | x | y | z
---- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |---
-<td colspan=3>first point <td colspan=3>second point <td colspan=3> third point <td colspan=3>so on.
+| x | y | z | x | y | z | x | y |z | x | y | z
+| --- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |---
+|<td colspan=3>first point <td colspan=3>second point <td colspan=3> third point <td colspan=3>so on.

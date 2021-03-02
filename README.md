@@ -11,7 +11,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 - 06 :white_check_mark: Animations
 - 07 :white_check_mark: Cameras
 - 08 :white_check_mark: FullScreen and resizing
-- 09 :black_square_button: Geometries
+- 09 :white_check_mark: Geometries
 - 10 :black_square_button: Debuging UI
 - 11 :black_square_button: Textures
 - 12 :black_square_button: Materials

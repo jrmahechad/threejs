@@ -19,13 +19,13 @@ npm run build
 
 ## Lesson
 
-:pencil2: Use `requestAnimationFrame` to call a function in the next animation frame.
+:pencil2: Use `requestAnimationFrame` to call a function in the next animation frame. We will call that function `tick`.
 
-You can create an animation loop by calling `requestAnimationFrame` inside a function and pass the same function to `requestAnimationFrame`.
+You can create an animation loop by calling `requestAnimationFrame` inside the `tick` function and pass the same function to `requestAnimationFrame`.
 
-Function will be executed according to the frame rate of the computer. The animation speed can change in computer with differente frame rates.
+The `tick` function will be executed according to the frame rate of the computer. The animation speed can change in computers with different frame rates.
 
-To avoid this on option is to use the `currentTime` and a `deltaTime` in the animation.
+To have a consistent animation speed we can use the `currentTime` and a `deltaTime` in the animation.
 
 ```javascript
 // Time
@@ -70,7 +70,7 @@ tick();
 
 :warning: Do *NOT* use `Clock.getDelta()`.
 
-You can algo use [GreenSock GSAP](https://greensock.com/gsap/) to create the animation.
+You can also use [GreenSock GSAP](https://greensock.com/gsap/) to create the animation.
 
 ```javascript
 // GreenSock

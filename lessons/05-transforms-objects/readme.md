@@ -34,7 +34,7 @@ mesh.position.set(0.7, -0.6, 1)
 
 ### Scale
 
-`scale` works in the same way than `position`.
+The `scale` works in the same way as the `position`.
 
 ```javascript
 mesh.scale.x = 2;
@@ -46,7 +46,7 @@ mesh.scale.set(2, 0.5, 0.5);
 
 ### Rotation
 
-For `rotation` you can acces/change it using the individually. Use `Math.PI` to set the angle. See [Euler angles](https://en.wikipedia.org/wiki/Euler_angles) for more details.
+For `rotation` you can access/change it using individually. Use `Math.PI` to set the angle. See [Euler angles](https://en.wikipedia.org/wiki/Euler_angles) for more details.
 
 ```javascript
 mesh.rotation.x = Math.PI * 0.25;
@@ -63,7 +63,7 @@ mesh.rotation.reorder('YXZ');
 
 ### Look At
 
-We can change the position of the camera to `look at` a particular point/object like this
+We can change the position of the camera to `look at` a particular point/object like this:
 
 ```javascript
 camera.lookAt(new THREE.Vector3(3, 0, 0));
@@ -74,7 +74,7 @@ camera.lookAt(mesh.position);
 
 ### Groups
 
-You can create groups of objects. Groups work as an object so you can change it's `position`, `scale` and `rotation` in the scene. Also, you can change the position of the elements inside the group in the same way.
+You can create groups of objects. Groups work as an object so you can change its `position`, `scale`, and `rotation` in the scene. Also, you can change the position of the elements inside the group in the same way.
 
 ### Notes :notebook: :pencil2:
 

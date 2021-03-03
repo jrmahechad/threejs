@@ -36,7 +36,7 @@ window.addEventListener('resize', () => {
 });
 ```
 
-To visualize the animation correctly in devices with high pixel ratio use the following code:
+To visualize the animation correctly in devices with a high pixel ratio use the following code:
 
 ```javascript
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));

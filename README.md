@@ -12,7 +12,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 - 07 :white_check_mark: Cameras
 - 08 :white_check_mark: FullScreen and resizing
 - 09 :white_check_mark: Geometries
-- 10 :black_square_button: Debuging UI
+- 10 :white_check_mark: Debuging UI
 - 11 :black_square_button: Textures
 - 12 :black_square_button: Materials
 - 13 :black_square_button: 3D Text
@@ -41,3 +41,10 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 - 31 :black_square_button: Intro and loading progress
 - 32 :black_square_button: Mixing HTML and WebGL
 - 33 :black_square_button: The end
+
+## Party sessions
+
+| session 1 | session 2 | session 3 | session 4 | session 5 | session 6 | session 7 |
+|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+| chapter 1 | chapter 1 | chapter 2 | chapter 3 | chapter 4 | chapter 4 | chapter 5 |
+|   01-08   |   09-13   |   14-19   |   20-23   |   24-25   |   26-28   |   29-33   |

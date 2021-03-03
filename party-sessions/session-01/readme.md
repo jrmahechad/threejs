@@ -20,7 +20,11 @@ npm run build
 
 This project is an oversimplified cubed solar system that includes the sun, earth, and moon.
 
-It includes the `OrbitControls` from lesson 7 and the fullscreen and resize from lession 8
+It includes the `OrbitControls` from lesson 7 and the fullscreen from lesson 8.
+
+I defined an object for the distances. `distances.earth` represents the distances between the sun and the earth. `distances.moon` represents the distance between the earth and the moon.
+
+I created three objects `cubeSun`, `cubeEarth` and `cubeMoon`. I grouped `cubeEarth` and `cubeMoon` in `earthGroup`.
 
 ```javascript
 // Distances
@@ -57,7 +61,7 @@ scene.add(earthGroup);
 
 ## Animation
 
-First we animate each cube rotation with a different speed.
+First I animated each cube rotation with a different speed.
 
 ```javascript
 /**
@@ -87,7 +91,7 @@ tick();
 
 ![alt text](./readme-imgs/recording-1.gif)
 
-Then we add a translation to the `earthGroup` and the cubeMoon object.
+Then I added a translation to the `earthGroup` and `cubeMoon` objects.
 
 ```javascript
     earthGroup.position.z = Math.sin(elapsedTime) * distances.earth;

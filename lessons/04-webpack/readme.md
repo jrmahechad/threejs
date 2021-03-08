@@ -15,4 +15,4 @@ npm run dev
 npm run build
 ```
 
-:notebook: Note: Use node v14.16.0 or latest
+

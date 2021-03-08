@@ -14,7 +14,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 - 09 :white_check_mark: Geometries
 - 10 :white_check_mark: Debuging UI
 - 11 :white_check_mark: Textures
-- 12 :black_square_button: Materials
+- 12 :white_check_mark: Materials
 - 13 :black_square_button: 3D Text
 
 ## Chapter 02. Classic Techniques

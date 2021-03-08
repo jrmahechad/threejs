@@ -1,9 +1,9 @@
-import './style.css';
-import * as THREE from 'three';
-import gsap from 'gsap';
+import "./style.css";
+import * as THREE from "three";
+import gsap from "gsap";
 
 // Canvas
-const canvas = document.querySelector('canvas.webgl');
+const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
@@ -16,8 +16,8 @@ scene.add(mesh);
 
 // Sizes
 const sizes = {
-    width: 800,
-    height: 600
+  width: 800,
+  height: 600,
 };
 
 // Camera
@@ -27,7 +27,7 @@ scene.add(camera);
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+  canvas: canvas,
 });
 renderer.setSize(sizes.width, sizes.height);
 
@@ -35,24 +35,24 @@ renderer.setSize(sizes.width, sizes.height);
 // const clock = new THREE.Clock();
 
 // GreenSock
-gsap.to(mesh.position, {duration:1, delay: 1, x: 2});
-gsap.to(mesh.position, {duration:1, delay: 2, x: 0});
+gsap.to(mesh.position, { duration: 1, delay: 1, x: 2 });
+gsap.to(mesh.position, { duration: 1, delay: 2, x: 0 });
 
 // Animations
 const tick = () => {
-    // const elapsedTime = clock.getElapsedTime();
+  // const elapsedTime = clock.getElapsedTime();
 
-    // mesh.rotation.y = elapsedTime * Math.PI * 2;
-    // mesh.position.y = elapsedTime;
-    // mesh.position.y = Math.sin(elapsedTime);
-    // mesh.position.x = Math.cos(elapsedTime);
-    // camera.position.y = Math.sin(elapsedTime);
-    // camera.position.x = Math.cos(elapsedTime);
-    // camera.lookAt(mesh.position);
+  // mesh.rotation.y = elapsedTime * Math.PI * 2;
+  // mesh.position.y = elapsedTime;
+  // mesh.position.y = Math.sin(elapsedTime);
+  // mesh.position.x = Math.cos(elapsedTime);
+  // camera.position.y = Math.sin(elapsedTime);
+  // camera.position.x = Math.cos(elapsedTime);
+  // camera.lookAt(mesh.position);
 
-    // Render
-    renderer.render(scene, camera);
-    window.requestAnimationFrame(tick)
+  // Render
+  renderer.render(scene, camera);
+  window.requestAnimationFrame(tick);
 };
 
 tick();

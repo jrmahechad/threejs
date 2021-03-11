@@ -4,10 +4,32 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "dat.gui";
 
 /**
+ * Base data
+ */
+const planeWidth = 20;
+const grainHeight = 0.5;
+
+/**
+ * Debug
+ */
+const gui = new dat.GUI();
+const debugObject = {
+  color: 0x00ff00,
+  i: planeWidth / 2,
+  j: planeWidth / 2,
+};
+gui.addColor(debugObject, "color").onChange(() => {
+  material.color.set(debugObject.color);
+});
+
+const dropFolder = gui.addFolder("drop point");
+dropFolder.add(debugObject, "i").min(0).max(planeWidth).step(1);
+dropFolder.add(debugObject, "j").min(0).max(planeWidth).step(1);
+dropFolder.open();
+
+/**
  * Base
  */
-// Debug
-const gui = new dat.GUI();
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -20,32 +42,28 @@ const scene = new THREE.Scene();
  */
 const textureLoader = new THREE.TextureLoader();
 
-/**
- * Object
- */
-
-const planeWidth = 20;
-const grainHeight = 0.5;
-
-// scene.add(cube);
-
 const geometry = new THREE.PlaneGeometry(
   planeWidth,
   planeWidth,
   planeWidth,
   planeWidth
 );
-const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
-// material.wireframe = true;
+const material = new THREE.MeshStandardMaterial({ color: debugObject.color });
+gui.add(material, "wireframe");
 const terrain = new THREE.Mesh(geometry, material);
 
 terrain.rotation.x = -Math.PI / 2;
 scene.add(terrain);
 
+const sphereGeometry = new THREE.SphereGeometry(1, 20, 20);
+const sphere = new THREE.Mesh(sphereGeometry, material);
+sphere.position.x = -planeWidth / 2 - 1;
+sphere.position.z = -planeWidth / 2 - 1;
+scene.add(sphere);
+
 /**
  * Lights
  */
-
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
@@ -117,7 +135,8 @@ let lastUpdated = 0;
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
   if (elapsedTime - lastUpdated > 1.5) {
-    addSand(planeWidth / 2, planeWidth / 2);
+    // addSand(planeWidth / 2, planeWidth / 2);
+    addSand(debugObject.i, debugObject.j);
     // addSand(0, 0);
     lastUpdated = elapsedTime;
   }

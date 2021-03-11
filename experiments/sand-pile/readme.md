@@ -17,3 +17,4 @@ npm run build
 ```
 
 ![Demo of sand pile in 3d](./sandPileDemo.gif)
+![Demo of sand pile in 3d, upgraded](./sandPileDemoUpgrade.gif)

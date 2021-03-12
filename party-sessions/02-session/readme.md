@@ -16,89 +16,129 @@ npm run dev
 npm run build
 ```
 
-## Session 01
+## Session 02
 
 This project is an oversimplified cubed solar system that includes the sun, earth, and moon.
 
-It includes the `OrbitControls` from lesson 7 and the fullscreen from lesson 8.
+I create this project based on session's 01 cubed version.
 
-I defined an object for the distances. `distances.earth` represents the distances between the sun and the earth. `distances.moon` represents the distance between the earth and the moon.
+I change the `cubes` to `spheres`. I added texture to each sphere and some lights.
+Also, I added a couple of params to the debug UI.
 
-I created three objects `cubeSun`, `cubeEarth` and `cubeMoon`. I grouped `cubeEarth` and `cubeMoon` in `earthGroup`.
+Here is the `TextureLoader`:
 
 ```javascript
+const textureLoader = new THREE.TextureLoader();
+const lavaColorTexture = textureLoader.load(
+  "/textures/lava/Lava_002_COLOR.png"
+);
+const lavaNormalTexture = textureLoader.load("/textures/lava/Lava_002_NRM.png");
+const lavaHeightTexture = textureLoader.load(
+  "/textures/lava/Lava_002_DISP.png"
+);
+const lavaAOTexture = textureLoader.load("/textures/lava/Lava_002_OCC.png");
+// const lavaSpecTexture = textureLoader.load("/textures/lava/Lava_002_SPEC.png");
+
+const waterColorTexture = textureLoader.load(
+  "/textures/water/Water_001_COLOR.jpg"
+);
+const waterNormalTexture = textureLoader.load(
+  "/textures/water/Water_001_NORM.jpg"
+);
+const waterHeightTexture = textureLoader.load(
+  "/textures/water/Water_001_DISP.png"
+);
+const waterAOTexture = textureLoader.load("/textures/water/Water_001_OCC.jpg");
+// const waterSpecTexture = textureLoader.load(
+//   "/textures/water/Water_001_SPEC.jpg"
+// );
+
+const rockColorTexture = textureLoader.load(
+  "/textures/rock/Stylized_Rocks_002_basecolor.jpg"
+);
+const rockNormalTexture = textureLoader.load(
+  "/textures/rock/Stylized_Rocks_002_normal.jpg"
+);
+const rockHeightTexture = textureLoader.load(
+  "/textures/rock/Stylized_Rocks_002_height.png"
+);
+const rockAOTexture = textureLoader.load(
+  "/textures/rock/Stylized_Rocks_002_ambientOcclusion.jpg"
+);
+const rockRoughnessTexture = textureLoader.load(
+  "/textures/rock/Stylized_Rocks_002_roughness.jpg"
+);
+```
+
+Each sphere is using `MeshStandardMaterial` with the available textures.
+
+```javascript
+const geometrySun = new THREE.SphereGeometry(1, 32, 32);
+const materialSun = new THREE.MeshStandardMaterial({ map: lavaColorTexture });
+materialSun.normalMap = lavaNormalTexture;
+materialSun.aoMap = lavaAOTexture;
+materialSun.displacementMap = lavaHeightTexture;
+materialSun.displacementScale = 0.1;
+// ...
+const geometryEarth = new THREE.SphereGeometry(0.5, 32, 32);
+const materialEarth = new THREE.MeshStandardMaterial({
+  map: waterColorTexture,
+});
+materialEarth.normalMap = waterNormalTexture;
+materialEarth.aoMap = waterAOTexture;
+materialEarth.displacementMap = waterHeightTexture;
+materialEarth.displacementScale = 0.05;
+// ...
+const geometryMoon = new THREE.SphereGeometry(0.2, 32, 32);
+const materialMoon = new THREE.MeshStandardMaterial({ map: rockColorTexture });
+materialMoon.normalMap = rockNormalTexture;
+materialMoon.aoMap = rockAOTexture;
+materialMoon.displacementMap = rockHeightTexture;
+materialMoon.displacementScale = 0.05;
+materialMoon.roughnessMap = rockRoughnessTexture;
+```
+
+I added the light we saw in the course `AmbientLight` and `PointLight`. To emulate the sun's light I added a second `PointLight` located in the center of the sphere.
+
+```javascript
+/**
+ * Lights
+ */
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+
+const pointLight = new THREE.PointLight(0xffffff, 0.5);
+pointLight.position.x = 2;
+pointLight.position.y = 3;
+pointLight.position.z = 4;
+scene.add(pointLight);
+
+const sunLight = new THREE.PointLight(0xffffff, light.sun);
+scene.add(sunLight);
+```
+
+The debug UI includes
+
+- Distance from the sun to the earth.
+- Distance from the earth to the moon.
+- Light emitted by the sun.
+
+```javascript
+/**
+ * Debug
+ */
+const gui = new dat.GUI();
+
 // Distances
 const distances = {
   earth: 3,
   moon: 1,
 };
-
-/**
- * Objects
- */
-const geometrySun = new THREE.BoxGeometry(1, 1, 1);
-const materialSun = new THREE.MeshBasicMaterial({ color: "#FFC300" });
-const cubeSun = new THREE.Mesh(geometrySun, materialSun);
-scene.add(cubeSun);
-
-const geometryEarth = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-const materialEarth = new THREE.MeshBasicMaterial({ color: "#3399FF" });
-const cubeEarth = new THREE.Mesh(geometryEarth, materialEarth);
-
-const geometryMoon = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-const materialMoon = new THREE.MeshBasicMaterial({ color: "#C1C3C5" });
-const cubeMoon = new THREE.Mesh(geometryMoon, materialMoon);
-cubeMoon.position.y = distances.moon;
-
-const earthGroup = new THREE.Group();
-earthGroup.position.x = distances.earth;
-earthGroup.add(cubeEarth);
-earthGroup.add(cubeMoon);
-scene.add(earthGroup);
-```
-
-![alt text](./readme-imgs/positioning.png)
-
-## Animation
-
-First I animated each cube rotation with a different speed.
-
-```javascript
-/**
- * Animate
- */
-const clock = new THREE.Clock();
-
-const tick = () => {
-  const elapsedTime = clock.getElapsedTime();
-
-  cubeSun.rotation.y = (elapsedTime * Math.PI) / 4;
-  cubeEarth.rotation.y = (elapsedTime * Math.PI) / 6;
-  cubeMoon.rotation.y = (elapsedTime * Math.PI) / 8;
-
-  // Update controls
-  controls.update();
-
-  // Render
-  renderer.render(scene, camera);
-
-  // Call tick again on the next frame
-  window.requestAnimationFrame(tick);
+const light = {
+  sun: 5,
 };
-
-tick();
+gui.add(distances, "earth").min(3).max(10).step(0.1).name("Earth distance");
+gui.add(distances, "moon").min(1).max(5).step(0.1).name("Moon distance");
+gui.add(light, "sun").min(1).max(20).step(0.1).name("Sun Light");
 ```
-
-![alt text](./readme-imgs/recording-1.gif)
-
-Then I added a translation to the `earthGroup` and `cubeMoon` objects.
-
-```javascript
-earthGroup.position.z = Math.sin(elapsedTime) * distances.earth;
-earthGroup.position.x = Math.cos(elapsedTime) * distances.earth;
-
-cubeMoon.position.y = Math.sin(elapsedTime / 2) * distances.moon;
-cubeMoon.position.x = Math.cos(elapsedTime / 2) * distances.moon;
-```
-
-![alt text](./readme-imgs/recording-2.gif)

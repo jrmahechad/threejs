@@ -142,3 +142,5 @@ gui.add(distances, "earth").min(3).max(10).step(0.1).name("Earth distance");
 gui.add(distances, "moon").min(1).max(5).step(0.1).name("Moon distance");
 gui.add(light, "sun").min(1).max(20).step(0.1).name("Sun Light");
 ```
+
+![alt text](./readme-imgs/recording.gif)

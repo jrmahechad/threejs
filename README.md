@@ -20,7 +20,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 
 ## Chapter 02. Classic Techniques
 
-- 14 :black_square_button: Lights
+- 14 :white_check_mark: Lights
 - 15 :black_square_button: Shadows
 - 16 :black_square_button: Haunted House
 - 17 :black_square_button: Particles

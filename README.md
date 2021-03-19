@@ -21,7 +21,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 ## Chapter 02. Classic Techniques
 
 - 14 :white_check_mark: Lights
-- 15 :black_square_button: Shadows
+- 15 :white_check_mark: Shadows
 - 16 :black_square_button: Haunted House
 - 17 :black_square_button: Particles
 - 18 :black_square_button: Galaxy Generator

@@ -81,6 +81,10 @@ materialSun.aoMap = lavaAOTexture;
 materialSun.displacementMap = lavaHeightTexture;
 materialSun.displacementScale = 0.1;
 const sphereSun = new THREE.Mesh(geometrySun, materialSun);
+sphereSun.geometry.setAttribute(
+  "uv2",
+  new THREE.BufferAttribute(sphereSun.geometry.attributes.uv.array, 2)
+);
 scene.add(sphereSun);
 
 const geometryEarth = new THREE.SphereGeometry(0.5, 32, 32);
@@ -93,6 +97,10 @@ materialEarth.displacementMap = waterHeightTexture;
 materialEarth.displacementScale = 0.05;
 
 const sphereEarth = new THREE.Mesh(geometryEarth, materialEarth);
+sphereEarth.geometry.setAttribute(
+  "uv2",
+  new THREE.BufferAttribute(sphereEarth.geometry.attributes.uv.array, 2)
+);
 
 const geometryMoon = new THREE.SphereGeometry(0.2, 32, 32);
 const materialMoon = new THREE.MeshStandardMaterial({ map: rockColorTexture });
@@ -103,6 +111,10 @@ materialMoon.displacementScale = 0.05;
 materialMoon.roughnessMap = rockRoughnessTexture;
 
 const sphereMoon = new THREE.Mesh(geometryMoon, materialMoon);
+sphereMoon.geometry.setAttribute(
+  "uv2",
+  new THREE.BufferAttribute(sphereMoon.geometry.attributes.uv.array, 2)
+);
 sphereMoon.position.y = distances.moon;
 
 const earthGroup = new THREE.Group();

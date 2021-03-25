@@ -1,10 +1,11 @@
 # Three.js Journey
 
 ## Setup
+
 Download [Node.js](https://nodejs.org/en/download/).
 Run this followed commands:
 
-``` bash
+```bash
 # Install dependencies (only the first time)
 npm install
 
@@ -22,7 +23,7 @@ What we are missing are the **drop shadows**.
 
 When you do one render, Three.js will do a render for each light supporting shadows.
 Those renders will simulate what the light sees as if it was a camera.
-During these lights renders, a *MeshDepthMaterial* replaces all meshes materials.
+During these lights renders, a _MeshDepthMaterial_ replaces all meshes materials.
 
 The lights renders are stored as textures and we call those **shadow maps**.
 They are then used on every materials supposed to receive shadows and projected on the geometry.
@@ -34,6 +35,7 @@ renderer.shadowMap.enabled = true;
 ```
 
 Then go through each object and decide it it can cas a shadow with `castShadow` and if it can receive shadow with `receiveShadow`.
+
 ```javascript
 // ...
 sphere.castShadow = true;
@@ -91,7 +93,7 @@ Different types of algorithms can be applied to shadow maps.
 - `THREE.VSMShadowMap`: Less performant,moew constraints, can have unexpected results.
 
 ```javascript
-renderer.shadowMap.type = THREE.PCFSoftShadowMap
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 ```
 
 The `radius` doesn't work with `THREE.PCFSoftShadowMap`.
@@ -99,5 +101,6 @@ The `radius` doesn't work with `THREE.PCFSoftShadowMap`.
 PointLight creates 6 perpective cameras, in each direction of a cube.
 
 ## Baking shadows
+
 A good alternative to Three.js shadows is baked shadows.
-We integrate shadows in textures that we apply on materials
+We integrate shadows in textures that we apply on materials.

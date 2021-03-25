@@ -22,7 +22,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 
 - 14 :white_check_mark: Lights
 - 15 :white_check_mark: Shadows
-- 16 :black_square_button: Haunted House
+- 16 :white_check_mark: Haunted House
 - 17 :black_square_button: Particles
 - 18 :black_square_button: Galaxy Generator
 - 19 :black_square_button: Raycaster

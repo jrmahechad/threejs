@@ -93,6 +93,15 @@ material.transparent = true;
 material.alphaMap = doorAlphaTexture;
 ```
 
+:warning: To make aoMap work make sure to add `uv2` attribute to the object
+
+```javascript
+sphere.geometry.setAttribute(
+  "uv2",
+  new THREE.BufferAttribute(sphere.geometry.attributes.uv.array, 2)
+);
+```
+
 Enviroment Map
 
 ```javascript

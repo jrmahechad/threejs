@@ -21,14 +21,30 @@ const gui = new dat.GUI();
 const distances = {
   earth: 3,
   moon: 1,
+  asteroids: 2,
 };
 
 const light = {
   sun: 5,
+  color: 0xffffff,
 };
+
+const planetSizes = {
+  sun: 1,
+  earth: 0.5,
+  moon: 0.2,
+  asteroids: 0.05,
+};
+
+gui.add(light, "sun").min(1).max(20).step(0.1).name("Sun Light");
 gui.add(distances, "earth").min(3).max(10).step(0.1).name("Earth distance");
 gui.add(distances, "moon").min(1).max(5).step(0.1).name("Moon distance");
-gui.add(light, "sun").min(1).max(20).step(0.1).name("Sun Light");
+gui
+  .add(distances, "asteroids")
+  .min(1)
+  .max(5)
+  .step(0.1)
+  .name("Asteroids distance");
 
 const textureLoader = new THREE.TextureLoader();
 const lavaColorTexture = textureLoader.load(
@@ -71,10 +87,26 @@ const rockRoughnessTexture = textureLoader.load(
   "/textures/rock/Stylized_Rocks_002_roughness.jpg"
 );
 
+const stoneColorTexture = textureLoader.load(
+  "/textures/stone/Stone_Path_005_BaseColor.jpg"
+);
+const stoneAOTexture = textureLoader.load(
+  "/textures/stone/Stone_Path_005_AmbientOcclusion.jpg"
+);
+const stoneHeightTexture = textureLoader.load(
+  "/textures/stone/Stone_Path_005_Height.jpg"
+);
+const stoneNormalTexture = textureLoader.load(
+  "/textures/stone/Stone_Path_005_Normal.jpg"
+);
+const stoneRoughnessTexture = textureLoader.load(
+  "/textures/stone/Stone_Path_005_Roughness.jpg"
+);
+
 /**
  * Objects
  */
-const geometrySun = new THREE.SphereGeometry(1, 32, 32);
+const geometrySun = new THREE.SphereGeometry(planetSizes.sun, 32, 32);
 const materialSun = new THREE.MeshStandardMaterial({ map: lavaColorTexture });
 materialSun.normalMap = lavaNormalTexture;
 materialSun.aoMap = lavaAOTexture;
@@ -87,7 +119,7 @@ sphereSun.geometry.setAttribute(
 );
 scene.add(sphereSun);
 
-const geometryEarth = new THREE.SphereGeometry(0.5, 32, 32);
+const geometryEarth = new THREE.SphereGeometry(planetSizes.earth, 32, 32);
 const materialEarth = new THREE.MeshStandardMaterial({
   map: waterColorTexture,
 });
@@ -102,7 +134,7 @@ sphereEarth.geometry.setAttribute(
   new THREE.BufferAttribute(sphereEarth.geometry.attributes.uv.array, 2)
 );
 
-const geometryMoon = new THREE.SphereGeometry(0.2, 32, 32);
+const geometryMoon = new THREE.SphereGeometry(planetSizes.moon, 32, 32);
 const materialMoon = new THREE.MeshStandardMaterial({ map: rockColorTexture });
 materialMoon.normalMap = rockNormalTexture;
 materialMoon.aoMap = rockAOTexture;
@@ -122,6 +154,60 @@ earthGroup.position.x = distances.earth;
 earthGroup.add(sphereMoon);
 earthGroup.add(sphereEarth);
 scene.add(earthGroup);
+
+const asteroidMaterial = new THREE.MeshStandardMaterial({
+  map: stoneColorTexture,
+});
+asteroidMaterial.aoMap = stoneAOTexture;
+asteroidMaterial.roughnessMap = stoneRoughnessTexture;
+asteroidMaterial.normalMap = stoneNormalTexture;
+asteroidMaterial.displacementMap = stoneHeightTexture;
+
+const asteroidsGroup = new THREE.Group();
+const asteroidsGroupRadius =
+  planetSizes.sun / 2 +
+  distances.earth +
+  planetSizes.earth +
+  distances.asteroids;
+scene.add(asteroidsGroup);
+
+const geometryAsteroid = new THREE.SphereGeometry(
+  planetSizes.asteroids,
+  32,
+  32
+);
+
+const asteroids = [];
+for (let i = 0; i < 20; i++) {
+  const asteroid = new THREE.Mesh(geometryAsteroid, asteroidMaterial);
+  asteroid.geometry.setAttribute(
+    "uv2",
+    new THREE.BufferAttribute(sphereMoon.geometry.attributes.uv.array, 2)
+  );
+
+  const randRadius = Math.random() * 1.5;
+
+  const angle = Math.random() * Math.PI * 2;
+  const radius =
+    planetSizes.sun / 2 +
+    distances.earth +
+    planetSizes.earth +
+    distances.asteroids +
+    randRadius;
+  const x = Math.sin(angle) * radius;
+  const z = Math.cos(angle) * radius;
+  const y = Math.random() - 0.5 + Math.random();
+  asteroid.position.set(x, y, z);
+
+  asteroids.push({
+    asteroid,
+    angle,
+    randRadius,
+  });
+  asteroidsGroup.add(asteroid);
+}
+
+console.log(asteroids);
 
 /**
  * Sizes
@@ -144,8 +230,11 @@ pointLight.position.y = 3;
 pointLight.position.z = 4;
 scene.add(pointLight);
 
-const sunLight = new THREE.PointLight(0xffffff, light.sun);
+const sunLight = new THREE.PointLight(light.color, light.sun);
 scene.add(sunLight);
+gui.addColor(light, "color").onChange(() => {
+  sunLight.color.set(light.color);
+});
 
 window.addEventListener("resize", () => {
   // Update sizes
@@ -207,6 +296,28 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 /**
+ * Shadows
+ */
+
+renderer.shadowMap.enabled = true;
+
+sunLight.castShadow = true;
+
+// sphereSun.castShadow = true;
+// sphereSun.receiveShadow = true;
+
+sphereEarth.castShadow = true;
+sphereEarth.receiveShadow = true;
+
+sphereMoon.castShadow = true;
+sphereMoon.receiveShadow = true;
+
+asteroids.forEach(({ asteroid }) => {
+  asteroid.receiveShadow = true;
+  // asteroid.castShadow = true;
+});
+
+/**
  * Animate
  */
 const clock = new THREE.Clock();
@@ -219,11 +330,33 @@ const tick = () => {
   sphereEarth.rotation.y = (elapsedTime * Math.PI) / 6;
   sphereMoon.rotation.y = (elapsedTime * Math.PI) / 8;
 
-  earthGroup.position.z = Math.sin(elapsedTime) * distances.earth;
-  earthGroup.position.x = Math.cos(elapsedTime) * distances.earth;
+  earthGroup.position.z =
+    Math.sin(elapsedTime) *
+    (distances.earth + planetSizes.sun / 2 + planetSizes.earth / 2);
+  earthGroup.position.x =
+    Math.cos(elapsedTime) *
+    (distances.earth + planetSizes.sun / 2 + planetSizes.earth / 2) *
+    0.8;
 
-  sphereMoon.position.y = Math.sin(elapsedTime / 2) * distances.moon;
-  sphereMoon.position.x = Math.cos(elapsedTime / 2) * distances.moon;
+  sphereMoon.position.y =
+    Math.sin(elapsedTime / 2) *
+    (distances.moon + planetSizes.earth / 2 + planetSizes.moon / 2) *
+    0.7;
+  sphereMoon.position.x =
+    Math.cos(elapsedTime / 2) *
+    (distances.moon + planetSizes.earth / 2 + planetSizes.moon / 2);
+
+  asteroids.forEach(({ asteroid, angle, randRadius }) => {
+    const radius =
+      planetSizes.sun / 2 +
+      distances.earth +
+      planetSizes.earth +
+      distances.asteroids +
+      randRadius;
+    const x = Math.sin(angle + elapsedTime / 6) * radius;
+    const z = Math.cos(angle + elapsedTime / 6) * radius;
+    asteroid.position.set(x, asteroid.position.y, z);
+  });
 
   // Update controls
   controls.update();

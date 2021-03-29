@@ -144,3 +144,33 @@ gui.add(light, "sun").min(1).max(20).step(0.1).name("Sun Light");
 ```
 
 ![alt text](./readme-imgs/recording.gif)
+
+I added Asteroids to the scene, which includes loading new textures and gneretating the asteroids in an orbit.
+
+I included shadows to the earth, moon and asteroids.
+
+```javascript
+/**
+ * Shadows
+ */
+
+renderer.shadowMap.enabled = true;
+
+sunLight.castShadow = true;
+
+// sphereSun.castShadow = true;
+// sphereSun.receiveShadow = true;
+
+sphereEarth.castShadow = true;
+sphereEarth.receiveShadow = true;
+
+sphereMoon.castShadow = true;
+sphereMoon.receiveShadow = true;
+
+asteroids.forEach(({ asteroid }) => {
+  asteroid.receiveShadow = true;
+  // asteroid.castShadow = true;
+});
+```
+
+![alt text](./readme-imgs/recording-2.gif)

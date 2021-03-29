@@ -2,6 +2,7 @@ import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "dat.gui";
+import { Vector3 } from "three";
 
 /**
  * Base
@@ -15,7 +16,7 @@ const scene = new THREE.Scene();
 /**
  * Debug
  */
-const gui = new dat.GUI();
+const gui = new dat.GUI({ width: 400 });
 
 // Distances
 const distances = {
@@ -293,7 +294,9 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100
 );
-camera.position.z = 7;
+camera.position.z = 10;
+camera.position.y = 5;
+camera.lookAt(new Vector3());
 scene.add(camera);
 
 // Controls

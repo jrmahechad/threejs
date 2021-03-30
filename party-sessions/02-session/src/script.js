@@ -101,7 +101,7 @@ const stoneAOTexture = textureLoader.load(
   "/textures/stone/Stone_Path_005_AmbientOcclusion.jpg"
 );
 const stoneHeightTexture = textureLoader.load(
-  "/textures/stone/Stone_Path_005_Height.jpg"
+  "/textures/stone/Stone_Path_005_Height.png"
 );
 const stoneNormalTexture = textureLoader.load(
   "/textures/stone/Stone_Path_005_Normal.jpg"
@@ -177,6 +177,7 @@ asteroidMaterial.aoMap = stoneAOTexture;
 asteroidMaterial.roughnessMap = stoneRoughnessTexture;
 asteroidMaterial.normalMap = stoneNormalTexture;
 asteroidMaterial.displacementMap = stoneHeightTexture;
+asteroidMaterial.displacementScale = 0.02;
 
 const asteroidsGroup = new THREE.Group();
 

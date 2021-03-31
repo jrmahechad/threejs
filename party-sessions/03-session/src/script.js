@@ -17,6 +17,7 @@ const scene = new THREE.Scene();
  * Debug
  */
 const gui = new dat.GUI({ width: 400 });
+gui.close();
 
 // Distances
 const distances = {
@@ -28,7 +29,7 @@ const distances = {
 // Light
 const light = {
   sun: 5,
-  color: 0xffffff,
+  color: 0xf0c13d,
 };
 
 // Planets sizes

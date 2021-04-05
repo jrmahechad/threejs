@@ -25,7 +25,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 - 16 :white_check_mark: Haunted House
 - 17 :white_check_mark: Particles
 - 18 :white_check_mark: Galaxy Generator
-- 19 :black_square_button: Raycaster
+- 19 :white_check_mark: Raycaster
 
 ## Chapter 03. Advance Techniques
 

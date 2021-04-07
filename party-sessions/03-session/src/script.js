@@ -129,12 +129,16 @@ const stoneRoughnessTexture = textureLoader.load(
 
 const particleTexture = textureLoader.load("/textures/particles/5.png");
 
-const matcapTexture = textureLoader.load("/textures/matcaps/7.png");
+const matcapTexture = textureLoader.load("/textures/matcaps/3.png");
+
+const textGroup = new THREE.Group();
+scene.add(textGroup);
 
 /**
  * Fonts
  */
 let text = null;
+let clickMeText = null;
 const fontLoader = new THREE.FontLoader();
 fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
   console.log("font loaded");
@@ -153,12 +157,27 @@ fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
     }
   );
 
+  const clickMeTextGeometry = new THREE.TextBufferGeometry("Click Me", {
+    font: font,
+    size: 0.1,
+    height: 0.05,
+    curveSegments: 2,
+    bevelEnabled: true,
+    bevelThickness: 0.01,
+    bevelSize: 0.01,
+    bevelOffset: 0,
+    bevelSegments: 4,
+  });
+
   textGeometry.center();
+  clickMeTextGeometry.center();
 
   const material = new THREE.MeshMatcapMaterial();
   material.matcap = matcapTexture;
   text = new THREE.Mesh(textGeometry, material);
-  scene.add(text);
+  clickMeText = new THREE.Mesh(clickMeTextGeometry, material);
+  textGroup.add(clickMeText);
+  textGroup.add(text);
 });
 
 // Solar System Group
@@ -455,10 +474,13 @@ const tick = () => {
     camera.position.x = Math.sin(elapsedTime) - 0.5;
     camera.position.y = Math.cos(elapsedTime) - 0.5;
 
-    if (text) {
+    if (clickMeText) {
+      clickMeText.position.y = Math.sin(elapsedTime * 0.7);
+      clickMeText.position.z = Math.cos(elapsedTime * 0.7);
+      clickMeText.position.x = Math.cos(elapsedTime * 0.5) - 0.5;
       raycaster.setFromCamera(mouse, camera);
 
-      intersects = raycaster.intersectObject(text);
+      intersects = raycaster.intersectObject(clickMeText);
     }
   } else {
     if (solarSystem.animated) {
@@ -535,9 +557,9 @@ function showSolarSystem() {
   scene.add(solarSystemGroup);
   const timeline = gsap.timeline();
   timeline.add("start", 0);
-  timeline.to(text.position, { duration: 4, y: 10 });
+  timeline.to(textGroup.position, { duration: 4, y: 10 });
   timeline.call(() => {
-    scene.remove(text);
+    scene.remove(textGroup);
   });
   timeline.to(solarSystemGroup.position, { duration: 5, y: 0 }, "start");
   timeline.to(

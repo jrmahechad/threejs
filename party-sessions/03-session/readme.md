@@ -16,8 +16,10 @@ npm run dev
 npm run build
 ```
 
-## Session 02
+## Session 03
 
-This project is an oversimplified cubed solar system that includes the sun, earth, and moon.
+This project is an oversimplified solar system that includes the sun, earth, and moon.
 
 I create this project based on session's 02 version.
+
+[Demo](https://threejs-solar-system.netlify.app/)

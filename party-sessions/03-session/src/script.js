@@ -2,7 +2,8 @@ import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "dat.gui";
-import { Vector3 } from "three";
+import { Group, Vector3 } from "three";
+import gsap from "gsap";
 
 /**
  * Base
@@ -18,6 +19,21 @@ const scene = new THREE.Scene();
  */
 const gui = new dat.GUI({ width: 400 });
 gui.close();
+
+/**
+ * Objects
+ */
+// Solar System
+const solarSystem = {
+  visible: false,
+  animated: false,
+  animationStartsAt: 0,
+};
+
+const cameraPosition = {
+  text: { x: 0, y: -1, z: 3 },
+  solarSystem: { x: 0, y: 5, z: 10 },
+};
 
 // Distances
 const distances = {
@@ -113,9 +129,42 @@ const stoneRoughnessTexture = textureLoader.load(
 
 const particleTexture = textureLoader.load("/textures/particles/5.png");
 
+const matcapTexture = textureLoader.load("/textures/matcaps/7.png");
+
 /**
- * Objects
+ * Fonts
  */
+let text = null;
+const fontLoader = new THREE.FontLoader();
+fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
+  console.log("font loaded");
+  const textGeometry = new THREE.TextBufferGeometry(
+    "Welcome to my\n  Solar System",
+    {
+      font: font,
+      size: 0.5,
+      height: 0.2,
+      curveSegments: 5,
+      bevelEnabled: true,
+      bevelThickness: 0.03,
+      bevelSize: 0.02,
+      bevelOffset: 0,
+      bevelSegments: 4,
+    }
+  );
+
+  textGeometry.center();
+
+  const material = new THREE.MeshMatcapMaterial();
+  material.matcap = matcapTexture;
+  text = new THREE.Mesh(textGeometry, material);
+  scene.add(text);
+});
+
+// Solar System Group
+
+const solarSystemGroup = new THREE.Group();
+solarSystemGroup.position.y = -30;
 
 // Sun
 const geometrySun = new THREE.SphereGeometry(planetSizes.sun, 32, 32);
@@ -130,9 +179,9 @@ sphereSun.geometry.setAttribute(
   new THREE.BufferAttribute(sphereSun.geometry.attributes.uv.array, 2)
 );
 
-scene.add(sphereSun);
+solarSystemGroup.add(sphereSun);
 
-//Earth
+// Earth
 const geometryEarth = new THREE.SphereGeometry(planetSizes.earth, 32, 32);
 const materialEarth = new THREE.MeshStandardMaterial({
   map: waterColorTexture,
@@ -170,9 +219,9 @@ const earthGroup = new THREE.Group();
 earthGroup.position.x = distances.earth;
 earthGroup.add(sphereMoon);
 earthGroup.add(sphereEarth);
-scene.add(earthGroup);
+solarSystemGroup.add(earthGroup);
 
-//Asteroids
+// Asteroids
 const asteroidMaterial = new THREE.MeshStandardMaterial({
   map: stoneColorTexture,
 });
@@ -184,8 +233,9 @@ asteroidMaterial.displacementScale = 0.02;
 
 const asteroidsGroup = new THREE.Group();
 
-scene.add(asteroidsGroup);
+solarSystemGroup.add(asteroidsGroup);
 
+// Asteroids
 const geometryAsteroid = new THREE.SphereGeometry(
   planetSizes.asteroids,
   32,
@@ -262,7 +312,7 @@ particlesMaterial.vertexColors = true;
 
 // Points
 const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-scene.add(particles);
+solarSystemGroup.add(particles);
 
 /**
  * Sizes
@@ -275,7 +325,7 @@ const sizes = {
 /**
  * Lights
  */
-
+// Global lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
@@ -285,8 +335,9 @@ pointLight.position.y = 3;
 pointLight.position.z = 4;
 scene.add(pointLight);
 
+// Sun light
 const sunLight = new THREE.PointLight(light.color, light.sun);
-scene.add(sunLight);
+solarSystemGroup.add(sunLight);
 gui.addColor(light, "color").onChange(() => {
   sunLight.color.set(light.color);
 });
@@ -334,14 +385,35 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100
 );
-camera.position.z = 10;
-camera.position.y = 5;
+camera.position.set(
+  cameraPosition.text.x,
+  cameraPosition.text.y,
+  cameraPosition.text.z
+);
 camera.lookAt(new Vector3());
 scene.add(camera);
 
 // Controls
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
+controls.enabled = false;
+
+/**
+ * Mouse
+ */
+const mouse = new THREE.Vector2();
+
+window.addEventListener("mousemove", (event) => {
+  mouse.x = (event.clientX / sizes.width) * 2 - 1;
+  mouse.y = -(event.clientY / sizes.height) * 2 + 1;
+});
+
+window.addEventListener("click", clickHandler);
+
+/**
+ * Raycaster
+ */
+const raycaster = new THREE.Raycaster();
 
 /**
  * Renderer
@@ -355,13 +427,9 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 /**
  * Shadows
  */
-
 renderer.shadowMap.enabled = true;
 
 sunLight.castShadow = true;
-
-// sphereSun.castShadow = true;
-// sphereSun.receiveShadow = true;
 
 sphereEarth.castShadow = true;
 sphereEarth.receiveShadow = true;
@@ -371,7 +439,6 @@ sphereMoon.receiveShadow = true;
 
 asteroids.forEach(({ asteroid }) => {
   asteroid.receiveShadow = true;
-  // asteroid.castShadow = true;
 });
 
 /**
@@ -379,45 +446,62 @@ asteroids.forEach(({ asteroid }) => {
  */
 const clock = new THREE.Clock();
 
+let intersects = [];
+
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-  sunLight.intensity = light.sun;
 
-  // Rotations
-  sphereSun.rotation.y = (elapsedTime * Math.PI) / 4;
-  sphereEarth.rotation.y = (elapsedTime * Math.PI) / 6;
-  sphereMoon.rotation.y = (elapsedTime * Math.PI) / 8;
+  if (!solarSystem.visible) {
+    camera.position.x = Math.sin(elapsedTime) - 0.5;
+    camera.position.y = Math.cos(elapsedTime) - 0.5;
 
-  // Earth Group movement
-  earthGroup.position.z =
-    Math.sin(elapsedTime) *
-    (distances.earth + planetSizes.sun / 2 + planetSizes.earth / 2);
-  earthGroup.position.x =
-    Math.cos(elapsedTime) *
-    (distances.earth + planetSizes.sun / 2 + planetSizes.earth / 2) *
-    0.8;
+    if (text) {
+      raycaster.setFromCamera(mouse, camera);
 
-  // Moon movement
-  sphereMoon.position.y =
-    Math.sin(elapsedTime / 2) *
-    (distances.moon + planetSizes.earth / 2 + planetSizes.moon / 2) *
-    0.7;
-  sphereMoon.position.x =
-    Math.cos(elapsedTime / 2) *
-    (distances.moon + planetSizes.earth / 2 + planetSizes.moon / 2);
+      intersects = raycaster.intersectObject(text);
+    }
+  } else {
+    if (solarSystem.animated) {
+      const newElapsedTime = elapsedTime - solarSystem.animationStartsAt;
+      sunLight.intensity = light.sun;
 
-  // Asteroids movement
-  asteroids.forEach(({ asteroid, angle, randRadius }) => {
-    const radius =
-      planetSizes.sun / 2 +
-      distances.earth +
-      planetSizes.earth +
-      distances.asteroids +
-      randRadius;
-    const x = Math.sin(angle + elapsedTime / 8) * radius;
-    const z = Math.cos(angle + elapsedTime / 8) * radius;
-    asteroid.position.set(x, asteroid.position.y, z);
-  });
+      // Rotations
+      sphereSun.rotation.y = (newElapsedTime * Math.PI) / 4;
+      sphereEarth.rotation.y = (newElapsedTime * Math.PI) / 6;
+      sphereMoon.rotation.y = (newElapsedTime * Math.PI) / 8;
+
+      // Earth Group movement
+      earthGroup.position.z =
+        Math.sin(newElapsedTime) *
+        (distances.earth + planetSizes.sun / 2 + planetSizes.earth / 2);
+      earthGroup.position.x =
+        Math.cos(newElapsedTime) *
+        (distances.earth + planetSizes.sun / 2 + planetSizes.earth / 2) *
+        0.8;
+
+      // Moon movement
+      sphereMoon.position.y =
+        Math.sin(newElapsedTime / 2) *
+        (distances.moon + planetSizes.earth / 2 + planetSizes.moon / 2) *
+        0.7;
+      sphereMoon.position.x =
+        Math.cos(newElapsedTime / 2) *
+        (distances.moon + planetSizes.earth / 2 + planetSizes.moon / 2);
+
+      // Asteroids movement
+      asteroids.forEach(({ asteroid, angle, randRadius }) => {
+        const radius =
+          planetSizes.sun / 2 +
+          distances.earth +
+          planetSizes.earth +
+          distances.asteroids +
+          randRadius;
+        const x = Math.sin(angle + newElapsedTime / 8) * radius;
+        const z = Math.cos(angle + newElapsedTime / 8) * radius;
+        asteroid.position.set(x, asteroid.position.y, z);
+      });
+    }
+  }
 
   // Update controls
   controls.update();
@@ -438,4 +522,40 @@ function getRandomNumberBetween(min, max) {
 function getRandomNumberBetweenInterval(min, max) {
   const number = getRandomNumberBetween(min, max);
   return Math.random() > 0.5 ? number : -number;
+}
+
+function clickHandler(event) {
+  if (intersects.length && !solarSystem.visible) {
+    showSolarSystem();
+  }
+}
+
+function showSolarSystem() {
+  solarSystem.visible = true;
+  scene.add(solarSystemGroup);
+  const timeline = gsap.timeline();
+  timeline.add("start", 0);
+  timeline.to(text.position, { duration: 4, y: 10 });
+  timeline.call(() => {
+    scene.remove(text);
+  });
+  timeline.to(solarSystemGroup.position, { duration: 5, y: 0 }, "start");
+  timeline.to(
+    camera.position,
+    {
+      duration: 5,
+      x: cameraPosition.solarSystem.x,
+      y: cameraPosition.solarSystem.y,
+      z: cameraPosition.solarSystem.z,
+    },
+    "start"
+  );
+
+  timeline.to(controls, { duration: 0, enabled: true });
+  timeline.call(() => {
+    solarSystem.animationStartsAt = clock.getElapsedTime();
+    solarSystem.animated = true;
+  });
+
+  window.removeEventListener("click", clickHandler);
 }

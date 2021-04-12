@@ -30,7 +30,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 ## Chapter 03. Advance Techniques
 
 - 20 :white_check_mark: Physics
-- 21 :black_square_button: Imported Models
+- 21 :white_check_mark: Imported Models
 - 22 :black_square_button: Custom models with Blender
 - 23 :black_square_button: Realistic render
 

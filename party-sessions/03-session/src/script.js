@@ -159,7 +159,7 @@ fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
 
   const clickMeTextGeometry = new THREE.TextBufferGeometry("Click Me", {
     font: font,
-    size: 0.1,
+    size: 0.2,
     height: 0.05,
     curveSegments: 2,
     bevelEnabled: true,

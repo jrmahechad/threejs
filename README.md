@@ -31,7 +31,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 
 - 20 :white_check_mark: Physics
 - 21 :white_check_mark: Imported Models
-- 22 :black_square_button: Custom models with Blender
+- 22 :white_check_mark: Custom models with Blender
 - 23 :black_square_button: Realistic render
 
 ## Chapter 04. Shaders

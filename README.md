@@ -36,7 +36,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 
 ## Chapter 04. Shaders
 
-- 24 :black_square_button: Shaders
+- 24 :white_check_mark: Shaders
 - 25 :black_square_button: Shader pattern
 - 26 :black_square_button: Raging sea
 - 27 :black_square_button: Animated galaxy

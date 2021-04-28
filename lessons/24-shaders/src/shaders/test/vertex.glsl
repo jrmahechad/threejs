@@ -1,12 +1,12 @@
-// uniform mat4 projectionMatrix;
-// uniform mat4 viewMatrix;
-// uniform mat4 modelMatrix;
+// uniform mat4 projectionMatrix; If using ShaderMaterial this is not needed.
+// uniform mat4 viewMatrix; If using ShaderMaterial this is not needed.
+// uniform mat4 modelMatrix; If using ShaderMaterial this is not needed.
 uniform vec2 uFrequency;
 uniform float uTime;
 
-// attribute vec3 position;
+// attribute vec3 position; If using ShaderMaterial this is not needed.
 attribute float aRandom;
-// attribute vec2 uv;
+// attribute vec2 uv; If using ShaderMaterial this is not needed.
 
 varying vec2 vUv;
 varying float vElevation;

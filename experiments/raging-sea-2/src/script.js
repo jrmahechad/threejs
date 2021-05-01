@@ -2,8 +2,8 @@ import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "dat.gui";
-import { LightningStrike } from "three/examples//jsm/geometries/LightningStrike.js";
-import { LightningStorm } from "three/examples//jsm/objects/LightningStorm.js";
+import { LightningStorm } from "three/examples/jsm/objects/LightningStorm.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 import waterVertexShader from "./shaders/water/vertex.glsl";
 import waterFragmentShader from "./shaders/water/fragment.glsl";
@@ -23,6 +23,23 @@ const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
+
+// Loader
+let boatModel = null;
+const gltfLoader = new GLTFLoader();
+gltfLoader.load("/models/boat.glb", (gltf) => {
+  const boatScale = 0.05;
+  boatModel = gltf.scene.children[0];
+  boatModel.scale.set(boatScale, boatScale, boatScale);
+  console.log(boatModel.rotation.x);
+
+  // boatModel.rotateZ(Math.PI / 16);
+  scene.add(boatModel);
+});
+
+// Light
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
 
 const data = {
   waterSegments: 512,
@@ -276,15 +293,15 @@ scene.add(cloud);
  * Boat
  */
 // Geometry
-const boatGeometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+// const boatGeometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
 
 // Material
-const BoatMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+// const BoatMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 
 // Mesh
-const boat = new THREE.Mesh(boatGeometry, BoatMaterial);
+// const boat = new THREE.Mesh(boatGeometry, BoatMaterial);
 // Add the mesh to the scene
-scene.add(boat);
+// scene.add(boat);
 /**
  * Storm
  */
@@ -418,44 +435,33 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setClearColor(debugObject.depthColor, 0.35);
 
-let logged = false;
-
-let prevPos = { x: 0, y: 0, z: 0 };
 const updateBoat = (elapsedTime) => {
-  if (!logged) {
-    console.log(water);
-    console.log(boat);
-    logged = true;
-  }
-
-  const index = getLinearIndex(
-    boat.position.x,
-    boat.position.z,
-    data.waterSegments
-  );
-
+  if (!boatModel) return;
   const angleX = elapsedTime / 8;
   const angleZ = elapsedTime / 4;
 
-  boat.position.x = Math.sin(angleX) * 0.8;
-  boat.position.z = Math.sin(angleZ) * 0.8;
+  boatModel.position.x = Math.sin(angleX) * 0.8;
+  boatModel.position.z = Math.sin(angleZ) * 0.8;
 
-  boat.rotateY(0.001);
+  // boatModel.rotateZ(Math.sin(elapsedTime) * (Math.PI / 16));
+  boatModel.rotation.z = Math.sin(elapsedTime) * (Math.PI / 16);
+  boatModel.rotation.x = Math.sin(elapsedTime) * (Math.PI / 12);
+  boatModel.rotation.y = Math.sin(elapsedTime) * (Math.PI / 20);
 
   const height =
     Math.sin(
-      boat.position.x * waterMaterial.uniforms.uBigWavesFrequency.value.x +
+      boatModel.position.x * waterMaterial.uniforms.uBigWavesFrequency.value.x +
         waterMaterial.uniforms.uTime.value *
           waterMaterial.uniforms.uBigWavesSpeed.value
     ) *
     Math.sin(
-      boat.position.z * waterMaterial.uniforms.uBigWavesFrequency.value.y +
+      boatModel.position.z * waterMaterial.uniforms.uBigWavesFrequency.value.y +
         waterMaterial.uniforms.uTime.value *
           waterMaterial.uniforms.uBigWavesSpeed.value
     ) *
     waterMaterial.uniforms.uBigWavesElevation.value;
 
-  boat.position.y = height;
+  boatModel.position.y = height;
 };
 
 /**

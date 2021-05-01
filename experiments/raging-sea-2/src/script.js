@@ -9,6 +9,7 @@ import waterVertexShader from "./shaders/water/vertex.glsl";
 import waterFragmentShader from "./shaders/water/fragment.glsl";
 import cloudVertexShader from "./shaders/cloud/vertex.glsl";
 import cloudFragmentShader from "./shaders/cloud/fragment.glsl";
+import { Vector3 } from "three";
 
 /**
  * Base
@@ -45,7 +46,7 @@ debugObject.depthColor = "#186691";
 debugObject.surfaceColor = "#9db8ff";
 
 // Color
-debugObject.cloudDepthColor = "#5c5c64";
+debugObject.cloudDepthColor = "#363639";
 debugObject.cloudSurfaceColor = "#8e8e98";
 
 // Material
@@ -284,6 +285,88 @@ const BoatMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 const boat = new THREE.Mesh(boatGeometry, BoatMaterial);
 // Add the mesh to the scene
 scene.add(boat);
+/**
+ * Storm
+ */
+
+let rayLength = 0;
+const rayDirection = new THREE.Vector3(0, -1, 0);
+const vec1 = new THREE.Vector3();
+const vec2 = new THREE.Vector3();
+
+const rayParams = {
+  radius0: 0.02,
+  radius1: 0.02,
+  minRadius: 0.01,
+  maxIterations: 7,
+
+  timeScale: 0.15,
+  propagationTimeFactor: 0.2,
+  vanishingTimeFactor: 0.9,
+  subrayPeriod: 4,
+  subrayDutyCycle: 0.6,
+
+  maxSubrayRecursion: 3,
+  ramification: 3,
+  recursionProbability: 0.4,
+
+  roughness: 0.85,
+  straightness: 0.65,
+
+  onSubrayCreation: function (
+    segment,
+    parentSubray,
+    childSubray,
+    lightningStrike
+  ) {
+    lightningStrike.subrayConePosition(
+      segment,
+      parentSubray,
+      childSubray,
+      0.6,
+      0.6,
+      0.5
+    );
+
+    // Plane projection
+
+    rayLength = lightningStrike.rayParameters.sourceOffset.y;
+    vec1.subVectors(
+      childSubray.pos1,
+      lightningStrike.rayParameters.sourceOffset
+    );
+    const proj = rayDirection.dot(vec1);
+    vec2.copy(rayDirection).multiplyScalar(proj);
+    vec1.sub(vec2);
+    const scale = proj / rayLength > 0.5 ? rayLength / proj : 1;
+    vec2.multiplyScalar(scale);
+    vec1.add(vec2);
+    childSubray.pos1.addVectors(
+      vec1,
+      lightningStrike.rayParameters.sourceOffset
+    );
+  },
+};
+
+const lightningColor = new THREE.Color(0xb0ffff);
+
+const lightningMaterial = new THREE.MeshBasicMaterial({
+  color: lightningColor,
+});
+
+const storm = new LightningStorm({
+  size: data.waterWidth,
+  minHeight: 0.5,
+  maxHeight: 2,
+  maxSlope: 0.06,
+  maxLightnings: 5,
+
+  lightningParameters: rayParams,
+
+  lightningMaterial: lightningMaterial,
+});
+
+scene.add(storm);
 
 /**
  * Sizes
@@ -317,8 +400,9 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100
 );
-camera.position.set(1, 1, 1);
+camera.position.set(1, 0.5, 2);
 scene.add(camera);
+camera.lookAt(new Vector3());
 
 // Controls
 const controls = new OrbitControls(camera, canvas);
@@ -332,7 +416,7 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(debugObject.depthColor);
+renderer.setClearColor(debugObject.depthColor, 0.35);
 
 let logged = false;
 
@@ -387,6 +471,8 @@ const tick = () => {
   cloudMaterial.uniforms.uTime.value = elapsedTime;
 
   updateBoat(elapsedTime);
+
+  storm.update(elapsedTime);
 
   // Update controls
   controls.update();

@@ -16,4 +16,6 @@ npm run dev
 npm run build
 ```
 
-## Lesson
+[https://raging-sea.netlify.app/](https://raging-sea.netlify.app/)
+
+![sample](./recording.gif)

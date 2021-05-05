@@ -39,7 +39,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 - 24 :white_check_mark: Shaders
 - 25 :white_check_mark: Shader pattern
 - 26 :white_check_mark: Raging sea
-- 27 :black_square_button: Animated galaxy
+- 27 :white_check_mark: Animated galaxy
 - 28 :black_square_button: Modified materials
 
 ## Chapter 05. Extra

@@ -45,7 +45,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 ## Chapter 05. Extra
 
 - 29 :white_check_mark: Post-processing
-- 30 :black_square_button: Performance tips
+- 30 :white_check_mark: Performance tips
 - 31 :black_square_button: Intro and loading progress
 - 32 :black_square_button: Mixing HTML and WebGL
 - 33 :black_square_button: The end

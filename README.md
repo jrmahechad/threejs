@@ -46,9 +46,13 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 
 - 29 :white_check_mark: Post-processing
 - 30 :white_check_mark: Performance tips
-- 31 :black_square_button: Intro and loading progress
-- 32 :black_square_button: Mixing HTML and WebGL
-- 33 :black_square_button: The end
+- 31 :white_check_mark: Intro and loading progress
+- 32 :white_check_mark: Mixing HTML and WebGL
+- 33 :black_square_button: Creating a scene in Blender
+- 34 :black_square_button: Baking and exporting the scene
+- 35 :black_square_button: Importing and optimizing the scene
+- 36 :black_square_button: Adding details to the scene
+- 37 :black_square_button: The end
 
 ## Party sessions
 

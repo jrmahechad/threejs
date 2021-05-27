@@ -48,7 +48,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 - 30 :white_check_mark: Performance tips
 - 31 :white_check_mark: Intro and loading progress
 - 32 :white_check_mark: Mixing HTML and WebGL
-- 33 :black_square_button: Creating a scene in Blender
+- 33 :white_check_mark: Creating a scene in Blender
 - 34 :black_square_button: Baking and exporting the scene
 - 35 :black_square_button: Importing and optimizing the scene
 - 36 :black_square_button: Adding details to the scene
@@ -56,7 +56,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 
 ## Party sessions
 
-| session 1 | session 2 | session 3 | session 4 | session 5 | session 6 | session 7 |
-| :-------: | :-------: | :-------: | :-------: | :-------: | :-------: | :-------: |
-| chapter 1 | chapter 1 | chapter 2 | chapter 3 | chapter 4 | chapter 4 | chapter 5 |
-|   01-08   |   09-13   |   14-19   |   20-23   |   24-25   |   26-28   |   29-33   |
+| session 1 | session 2 | session 3 | session 4 | session 5 | session 6 | session 7 | session 8 | session 9 | session 10 |
+| :-------: | :-------: | :-------: | :-------: | :-------: | :-------: | :-------: | :-------: | :-------: | :--------: |
+| chapter 1 | chapter 1 | chapter 2 | chapter 3 | chapter 4 | chapter 4 | chapter 5 | chapter 5 | chapter 5 | chapter 5  |
+|   01-08   |   09-13   |   14-19   |   20-23   |   24-25   |   26-28   |   29-31   |   32-33   |   34-35   |   36-37    |

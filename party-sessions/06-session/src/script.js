@@ -36,10 +36,14 @@ const planetSizes = {
 };
 
 const seeds = {
-  earthNumber: 10,
+  earthNumber: 1,
+  earthScale: 10,
   moonNumber: 6,
-  earthScale: 1,
   moonScale: 10,
+  sunNumber: 10,
+  sunScale: 20,
+  asteroidNumber: 10,
+  asteroidScale: 20,
 };
 
 const colors = {
@@ -47,6 +51,10 @@ const colors = {
   earthColor2: 0x1344a0,
   moonColor1: 0x5b5f5c,
   moonColor2: 0xc0cfff,
+  sunColor1: 0xdea41c,
+  sunColor2: 0xf51111,
+  asteroidColor1: 0x6b6b6b,
+  asteroidColor2: 0xd0225,
 };
 
 gui.add(distances, "earth").min(3).max(10).step(0.1).name("Earth distance");
@@ -59,7 +67,7 @@ gui
   .name("Asteroids distance");
 gui
   .add(seeds, "earthNumber")
-  .min(2)
+  .min(1)
   .max(20)
   .step(1)
   .name("Earth seed")
@@ -105,34 +113,54 @@ gui
   .onChange(() => {
     shaderMoonMaterial.uniforms.uScale.value = seeds.moonScale;
   });
-
-const textureLoader = new THREE.TextureLoader();
-// Sun textures
-const lavaColorTexture = textureLoader.load(
-  "/textures/lava/Lava_002_COLOR.png"
-);
-const lavaNormalTexture = textureLoader.load("/textures/lava/Lava_002_NRM.png");
-const lavaHeightTexture = textureLoader.load(
-  "/textures/lava/Lava_002_DISP.png"
-);
-const lavaAOTexture = textureLoader.load("/textures/lava/Lava_002_OCC.png");
-
-//Stone textures
-const stoneColorTexture = textureLoader.load(
-  "/textures/stone/Stone_Path_005_BaseColor.jpg"
-);
-const stoneAOTexture = textureLoader.load(
-  "/textures/stone/Stone_Path_005_AmbientOcclusion.jpg"
-);
-const stoneHeightTexture = textureLoader.load(
-  "/textures/stone/Stone_Path_005_Height.png"
-);
-const stoneNormalTexture = textureLoader.load(
-  "/textures/stone/Stone_Path_005_Normal.jpg"
-);
-const stoneRoughnessTexture = textureLoader.load(
-  "/textures/stone/Stone_Path_005_Roughness.jpg"
-);
+gui
+  .add(seeds, "sunNumber")
+  .min(1)
+  .max(20)
+  .step(1)
+  .name("Sun seed")
+  .onChange(() => {
+    shaderSunMaterial.uniforms.uSeed.value = seeds.sunNumber;
+  });
+gui.addColor(colors, "sunColor1").onChange(() => {
+  shaderSunMaterial.uniforms.uColor1.value.set(colors.sunColor1);
+});
+gui.addColor(colors, "sunColor2").onChange(() => {
+  shaderSunMaterial.uniforms.uColor2.value.set(colors.sunColor2);
+});
+gui
+  .add(seeds, "sunScale")
+  .min(2)
+  .max(20)
+  .step(1)
+  .name("Sun Scale")
+  .onChange(() => {
+    shaderSunMaterial.uniforms.uScale.value = seeds.sunScale;
+  });
+gui
+  .add(seeds, "asteroidNumber")
+  .min(1)
+  .max(20)
+  .step(1)
+  .name("Asteroid seed")
+  .onChange(() => {
+    shaderAsteroidMaterial.uniforms.uSeed.value = seeds.asteroidNumber;
+  });
+gui.addColor(colors, "asteroidColor1").onChange(() => {
+  shaderAsteroidMaterial.uniforms.uColor1.value.set(colors.asteroidColor1);
+});
+gui.addColor(colors, "asteroidColor2").onChange(() => {
+  shaderAsteroidMaterial.uniforms.uColor2.value.set(colors.asteroidColor2);
+});
+gui
+  .add(seeds, "asteroidScale")
+  .min(2)
+  .max(20)
+  .step(1)
+  .name("Asteroid Scale")
+  .onChange(() => {
+    shaderAsteroidMaterial.uniforms.uScale.value = seeds.asteroidScale;
+  });
 
 /**
  * Objects
@@ -140,12 +168,20 @@ const stoneRoughnessTexture = textureLoader.load(
 
 // Sun
 const geometrySun = new THREE.SphereGeometry(planetSizes.sun, 32, 32);
-const materialSun = new THREE.MeshStandardMaterial({ map: lavaColorTexture });
-materialSun.normalMap = lavaNormalTexture;
-materialSun.aoMap = lavaAOTexture;
-materialSun.displacementMap = lavaHeightTexture;
-materialSun.displacementScale = 0.1;
-const sphereSun = new THREE.Mesh(geometrySun, materialSun);
+
+const shaderSunMaterial = new THREE.ShaderMaterial({
+  vertexShader: planetVertexShader,
+  fragmentShader: planetFragmentShader,
+  side: THREE.DoubleSide,
+  uniforms: {
+    uSeed: { value: seeds.sunNumber },
+    uColor1: { value: new THREE.Color(colors.sunColor1) },
+    uColor2: { value: new THREE.Color(colors.sunColor2) },
+    uScale: { value: seeds.sunScale },
+  },
+});
+
+const sphereSun = new THREE.Mesh(geometrySun, shaderSunMaterial);
 sphereSun.geometry.setAttribute(
   "uv2",
   new THREE.BufferAttribute(sphereSun.geometry.attributes.uv.array, 2)
@@ -205,14 +241,18 @@ earthGroup.add(sphereEarth);
 scene.add(earthGroup);
 
 //Asteroids
-const asteroidMaterial = new THREE.MeshStandardMaterial({
-  map: stoneColorTexture,
+
+const shaderAsteroidMaterial = new THREE.ShaderMaterial({
+  vertexShader: planetVertexShader,
+  fragmentShader: planetFragmentShader,
+  side: THREE.DoubleSide,
+  uniforms: {
+    uSeed: { value: seeds.asteroidNumber },
+    uColor1: { value: new THREE.Color(colors.asteroidColor1) },
+    uColor2: { value: new THREE.Color(colors.asteroidColor2) },
+    uScale: { value: seeds.asteroidScale },
+  },
 });
-asteroidMaterial.aoMap = stoneAOTexture;
-asteroidMaterial.roughnessMap = stoneRoughnessTexture;
-asteroidMaterial.normalMap = stoneNormalTexture;
-asteroidMaterial.displacementMap = stoneHeightTexture;
-asteroidMaterial.displacementScale = 0.02;
 
 const asteroidsGroup = new THREE.Group();
 
@@ -226,7 +266,7 @@ const geometryAsteroid = new THREE.SphereGeometry(
 
 const asteroids = [];
 for (let i = 0; i < 20; i++) {
-  const asteroid = new THREE.Mesh(geometryAsteroid, asteroidMaterial);
+  const asteroid = new THREE.Mesh(geometryAsteroid, shaderAsteroidMaterial);
   asteroid.geometry.setAttribute(
     "uv2",
     new THREE.BufferAttribute(sphereMoon.geometry.attributes.uv.array, 2)

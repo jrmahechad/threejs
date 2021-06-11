@@ -49,7 +49,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 - 31 :white_check_mark: Intro and loading progress
 - 32 :white_check_mark: Mixing HTML and WebGL
 - 33 :white_check_mark: Creating a scene in Blender
-- 34 :black_square_button: Baking and exporting the scene
+- 34 :white_check_mark: Baking and exporting the scene
 - 35 :black_square_button: Importing and optimizing the scene
 - 36 :black_square_button: Adding details to the scene
 - 37 :black_square_button: The end

@@ -84,12 +84,12 @@ const updateAllMaterials = () => {
  * Environment map
  */
 const environmentMap = cubeTextureLoader.load([
-  "/textures/environmentMaps/0/px.jpg",
-  "/textures/environmentMaps/0/nx.jpg",
-  "/textures/environmentMaps/0/py.jpg",
-  "/textures/environmentMaps/0/ny.jpg",
-  "/textures/environmentMaps/0/pz.jpg",
-  "/textures/environmentMaps/0/nz.jpg",
+  "./textures/environmentMaps/0/px.jpg",
+  "./textures/environmentMaps/0/nx.jpg",
+  "./textures/environmentMaps/0/py.jpg",
+  "./textures/environmentMaps/0/ny.jpg",
+  "./textures/environmentMaps/0/pz.jpg",
+  "./textures/environmentMaps/0/nz.jpg",
 ]);
 
 environmentMap.encoding = THREE.sRGBEncoding;
@@ -102,7 +102,7 @@ debugObject.envMapIntensity = 5;
 /**
  * Models
  */
-gltfLoader.load("/models/FlightHelmet/glTF/FlightHelmet.gltf", (gltf) => {
+gltfLoader.load("./models/FlightHelmet/glTF/FlightHelmet.gltf", (gltf) => {
   gltf.scene.scale.set(10, 10, 10);
   gltf.scene.position.set(0, -4, 0);
   gltf.scene.rotation.y = Math.PI * 0.5;

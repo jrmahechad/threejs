@@ -23,13 +23,13 @@ const axesHelper = new THREE.AxesHelper();
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
-const matcapTexture = textureLoader.load("/textures/matcaps/7.png");
+const matcapTexture = textureLoader.load("./textures/matcaps/7.png");
 
 /**
  * Fonts
  */
 const fontLoader = new THREE.FontLoader();
-fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
+fontLoader.load("./fonts/helvetiker_regular.typeface.json", (font) => {
   console.log("font loaded");
   const textGeometry = new THREE.TextBufferGeometry("Hello Three.js", {
     font: font,

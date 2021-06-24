@@ -24,7 +24,7 @@ const scene = new THREE.Scene();
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
-const displacementTexture = textureLoader.load("/textures/displacementMap.png");
+const displacementTexture = textureLoader.load("./textures/displacementMap.png");
 
 /**
  * Sizes

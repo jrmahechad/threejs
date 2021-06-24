@@ -11,12 +11,12 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 // image.onload = () => {
 //     texture.needsUpdate = true;
 // }
-// image.src = '/textures/door/color.jpg';
+// image.src = './textures/door/color.jpg';
 
 // Callbacks test
 // const textureLoader = new THREE.TextureLoader();
 // const texture = textureLoader.load(
-//     '/textures/door/color.jpg',
+//     './textures/door/color.jpg',
 //     () => {
 //         console.log('load');
 //     },
@@ -43,18 +43,18 @@ const loadingManager = new THREE.LoadingManager();
 // }
 
 const textureLoader = new THREE.TextureLoader(loadingManager);
-// const colorTexture = textureLoader.load('/textures/door/color.jpg');
-// const colorTexture = textureLoader.load('/textures/checkerboard-1024x1024.png');
-// const colorTexture = textureLoader.load('/textures/checkerboard-8x8.png');
-const colorTexture = textureLoader.load("/textures/minecraft.png");
-const alphaTexture = textureLoader.load("/textures/door/alpha.jpg");
-const heightTexture = textureLoader.load("/textures/door/height.jpg");
-const normalTexture = textureLoader.load("/textures/door/normal.jpg");
+// const colorTexture = textureLoader.load('./textures/door/color.jpg');
+// const colorTexture = textureLoader.load('./textures/checkerboard-1024x1024.png');
+// const colorTexture = textureLoader.load('./textures/checkerboard-8x8.png');
+const colorTexture = textureLoader.load("./textures/minecraft.png");
+const alphaTexture = textureLoader.load("./textures/door/alpha.jpg");
+const heightTexture = textureLoader.load("./textures/door/height.jpg");
+const normalTexture = textureLoader.load("./textures/door/normal.jpg");
 const ambientOcclusionTexture = textureLoader.load(
-  "/textures/door/ambientOcclusion.jpg"
+  "./textures/door/ambientOcclusion.jpg"
 );
-const metalnessTexture = textureLoader.load("/textures/door/metalness.jpg");
-const roughnessTexture = textureLoader.load("/textures/door/roughness.jpg");
+const metalnessTexture = textureLoader.load("./textures/door/metalness.jpg");
+const roughnessTexture = textureLoader.load("./textures/door/roughness.jpg");
 
 // colorTexture.repeat.x = 2;
 // colorTexture.repeat.y = 3;

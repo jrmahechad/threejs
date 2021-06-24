@@ -30,10 +30,10 @@ gltfLoader.setDRACOLoader(dracoLoader);
 let mixer = null;
 
 gltfLoader.load(
-  // "/models/Duck/glTF/Duck.gltf",
-  "/models/Fox/glTF/Fox.gltf",
-  //   "/models/Duck/glTF-Draco/Duck.gltf",
-  // "/models/FlightHelmet/glTF/FlightHelmet.gltf",
+  // "./models/Duck/glTF/Duck.gltf",
+  "./models/Fox/glTF/Fox.gltf",
+  //   "./models/Duck/glTF-Draco/Duck.gltf",
+  // "./models/FlightHelmet/glTF/FlightHelmet.gltf",
   (gltf) => {
     console.log("success");
     console.log(gltf);

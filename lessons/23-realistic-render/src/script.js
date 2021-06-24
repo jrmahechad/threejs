@@ -16,17 +16,17 @@ const cubeTextureLoader = new THREE.CubeTextureLoader();
  */
 
 gltfLoader.load(
-  // "/models/FlightHelmet/glTF/FlightHelmet.gltf"
-  "/models/hamburger.glb",
-  //   "/models/burger.glb",
+  "./models/FlightHelmet/glTF/FlightHelmet.gltf",
+  // "./models/hamburger.glb",
+  //   "./models/burger.glb",
   (gltf) => {
     //Values for the FlightHelmet
-    // gltf.scene.scale.set(10, 10, 10);
-    // gltf.scene.position.set(0, -4, 0);
+    gltf.scene.scale.set(10, 10, 10);
+    gltf.scene.position.set(0, -4, 0);
 
     // Values for the hamburger
-    gltf.scene.scale.set(0.3, 0.3, 0.3);
-    gltf.scene.position.set(0, -1, 0);
+    // gltf.scene.scale.set(0.3, 0.3, 0.3);
+    // gltf.scene.position.set(0, -1, 0);
     gltf.scene.rotation.y = Math.PI * 0.5;
     scene.add(gltf.scene);
 
@@ -77,12 +77,12 @@ const updateAllMaterials = () => {
  * Environment map
  */
 const environmentMap = cubeTextureLoader.load([
-  "/textures/environmentMaps/0/px.jpg",
-  "/textures/environmentMaps/0/nx.jpg",
-  "/textures/environmentMaps/0/py.jpg",
-  "/textures/environmentMaps/0/ny.jpg",
-  "/textures/environmentMaps/0/pz.jpg",
-  "/textures/environmentMaps/0/nz.jpg",
+  "./textures/environmentMaps/0/px.jpg",
+  "./textures/environmentMaps/0/nx.jpg",
+  "./textures/environmentMaps/0/py.jpg",
+  "./textures/environmentMaps/0/ny.jpg",
+  "./textures/environmentMaps/0/pz.jpg",
+  "./textures/environmentMaps/0/nz.jpg",
 ]);
 
 environmentMap.encoding = THREE.sRGBEncoding;

@@ -14,7 +14,7 @@ void main (){
 
     gl_FragColor = textureColor;
 
-    gl_FragColor = vec4(vUv,1.0,1.0);
+    // gl_FragColor = vec4(vUv,1.0,1.0);
     // gl_FragColor = vec4(uColor, 1.0);
     // gl_FragColor = vec4(vRandom, vRandom * 0.5, 1.0, 1.0);
 }

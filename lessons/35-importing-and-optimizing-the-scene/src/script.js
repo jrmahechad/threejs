@@ -61,7 +61,7 @@ const portalLightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
  * Model
  */
 gltfLoader.load(
-  debugObj.useMyModel ? "/my-model/portal.glb" : "/portal.glb",
+  debugObj.useMyModel ? "./my-model/portal.glb" : "./portal.glb",
   (gltf) => {
     const bakedMesh = gltf.scene.children.find(
       (child) => child.name === "baked"

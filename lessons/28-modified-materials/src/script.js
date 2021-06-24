@@ -44,12 +44,12 @@ const updateAllMaterials = () => {
  * Environment map
  */
 const environmentMap = cubeTextureLoader.load([
-  "/textures/environmentMaps/0/px.jpg",
-  "/textures/environmentMaps/0/nx.jpg",
-  "/textures/environmentMaps/0/py.jpg",
-  "/textures/environmentMaps/0/ny.jpg",
-  "/textures/environmentMaps/0/pz.jpg",
-  "/textures/environmentMaps/0/nz.jpg",
+  "./textures/environmentMaps/0/px.jpg",
+  "./textures/environmentMaps/0/nx.jpg",
+  "./textures/environmentMaps/0/py.jpg",
+  "./textures/environmentMaps/0/ny.jpg",
+  "./textures/environmentMaps/0/pz.jpg",
+  "./textures/environmentMaps/0/nz.jpg",
 ]);
 environmentMap.encoding = THREE.sRGBEncoding;
 
@@ -61,10 +61,10 @@ scene.environment = environmentMap;
  */
 
 // Textures
-const mapTexture = textureLoader.load("/models/LeePerrySmith/color.jpg");
+const mapTexture = textureLoader.load("./models/LeePerrySmith/color.jpg");
 mapTexture.encoding = THREE.sRGBEncoding;
 
-const normalTexture = textureLoader.load("/models/LeePerrySmith/normal.jpg");
+const normalTexture = textureLoader.load("./models/LeePerrySmith/normal.jpg");
 
 // Material
 const material = new THREE.MeshStandardMaterial({
@@ -143,7 +143,7 @@ depthMaterial.onBeforeCompile = (shader) => {
 /**
  * Models
  */
-gltfLoader.load("/models/LeePerrySmith/LeePerrySmith.glb", (gltf) => {
+gltfLoader.load("./models/LeePerrySmith/LeePerrySmith.glb", (gltf) => {
   // Model
   const mesh = gltf.scene.children[0];
   mesh.rotation.y = Math.PI * 0.5;

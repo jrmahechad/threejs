@@ -12,6 +12,7 @@
 
 node_modules/
 dist/
+.DS_Store
 
 # End of https://www.toptal.com/developers/gitignore/api/vscode
 # Local Netlify folder

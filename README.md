@@ -88,7 +88,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 
 - 53 :white_square_button: What are REact and React Three Fiber
 - 54 :white_square_button: First REact Application
-- 55 :white_square_button: First R3F Application
+- 55 :white_check_mark: First R3F Application
 - 56 :white_square_button: Drei
 - 57 :white_square_button: Debug
 - 58 :white_square_button: Environment and Staging

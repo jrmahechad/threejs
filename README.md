@@ -2,7 +2,9 @@
 
 This repo will have the content of the course [Threejs Journey](https://threejs-journey.xyz/)
 
-## Chapter 01. Basics
+## Chapters
+
+### Chapter 01. Basics
 
 - 01 :white_check_mark: Introduction
 - 02 :white_check_mark: What is WebGL and why using Three.js
@@ -18,7 +20,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 - 12 :white_check_mark: Materials
 - 13 :white_check_mark: 3D Text
 
-## Chapter 02. Classic Techniques
+### Chapter 02. Classic Techniques
 
 - 14 :white_check_mark: Lights
 - 15 :white_check_mark: Shadows
@@ -27,14 +29,14 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 - 18 :white_check_mark: Galaxy Generator
 - 19 :white_check_mark: Raycaster
 
-## Chapter 03. Advance Techniques
+### Chapter 03. Advance Techniques
 
 - 20 :white_check_mark: Physics
 - 21 :white_check_mark: Imported Models
 - 22 :white_check_mark: Custom models with Blender
 - 23 :white_check_mark: Realistic render
 
-## Chapter 04. Shaders
+### Chapter 04. Shaders
 
 - 24 :white_check_mark: Shaders
 - 25 :white_check_mark: Shader pattern
@@ -42,7 +44,7 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 - 27 :white_check_mark: Animated galaxy
 - 28 :white_check_mark: Modified materials
 
-## Chapter 05. Extra
+### Chapter 05. Extra
 
 - 29 :white_check_mark: Post-processing
 - 30 :white_check_mark: Performance tips
@@ -54,9 +56,47 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 - 36 :white_check_mark: Adding details to the scene
 - 37 :white_check_mark: The end
 
-## Party sessions
+## Updated lessons
 
-| session 1 | session 2 | session 3 | session 4 | session 5 | session 6 | session 7 | session 8 | session 9 | session 10 |
-| :-------: | :-------: | :-------: | :-------: | :-------: | :-------: | :-------: | :-------: | :-------: | :--------: |
-| chapter 1 | chapter 1 | chapter 2 | chapter 3 | chapter 4 | chapter 4 | chapter 5 | chapter 5 | chapter 5 | chapter 5  |
-|   01-08   |   09-13   |   14-19   |   20-23   |   24-25   |   26-28   |   29-31   |   32-33   |   34-35   |   36-37    |
+### Chapter 01. Basics
+
+- 13 :white_square_button: Go live
+
+### Chapter 02. Classic Techniques
+
+### Chapter 03. Advance Techniques
+
+- 24 :white_square_button: Environment map
+
+### Chapter 04. Shaders
+
+- 32 :white_square_button: Coffe Smoke
+- 33 :white_square_button: Hologram
+- 34 :white_square_button: Fireworks
+- 35 :white_square_button: Lights Shading
+- 36 :white_square_button: Raging Sea Shading
+- 37 :white_square_button: Halftone Shading
+- 38 :white_square_button: Earth
+- 39 :white_square_button: Particles Cursor Animation
+- 40 :white_square_button: Particles Morphing
+- 41 :white_square_button: GPGPU Flow Field Particles
+- 42 :white_square_button: Wobbly Sphere
+- 43 :white_square_button: Sliced Model
+- 44 :white_square_button: Procedural Terrain
+
+### Chapter 07. React Three Fiber
+
+- 53 :white_square_button: What are REact and React Three Fiber
+- 54 :white_square_button: First REact Application
+- 55 :white_square_button: First R3F Application
+- 56 :white_square_button: Drei
+- 57 :white_square_button: Debug
+- 58 :white_square_button: Environment and Staging
+- 59 :white_square_button: Load models
+- 60 :white_square_button: 3D Text
+- 61 :white_square_button: Portal Scene
+- 62 :white_square_button: Mouse Events
+- 63 :white_square_button: Post-processing
+- 64 :white_square_button: Fun and Simple portfolio
+- 65 :white_square_button: Physics
+- 66 :white_square_button: Create a game

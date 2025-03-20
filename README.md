@@ -86,11 +86,11 @@ This repo will have the content of the course [Threejs Journey](https://threejs-
 
 ### Chapter 07. React Three Fiber
 
-- 53 :white_square_button: What are REact and React Three Fiber
+- 53 :white_check_mark: What are REact and React Three Fiber
 - 54 :white_square_button: First REact Application
 - 55 :white_check_mark: First R3F Application
-- 56 :white_square_button: Drei
-- 57 :white_square_button: Debug
+- 56 :white_check_mark: Drei
+- 57 :white_check_mark: Debug
 - 58 :white_square_button: Environment and Staging
 - 59 :white_square_button: Load models
 - 60 :white_square_button: 3D Text
